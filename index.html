@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Manipulation</title>
+    
+</head>
+<body>
+    
+    <script>
+        var pdiv=document.createElement('div');
+        pdiv.setAttribute('style','padding-top:20px');
+
+        var date_ele=document.createElement('input');
+        date_ele.setAttribute('type','date');
+        date_ele.name="dob";
+        date_ele.id="dob";
+        date_ele.classList.add('input-elem');
+        pdiv.appendChild(date_ele);
+
+        var button=document.createElement('button');
+        button.innerHTML="Display Date";
+        button.setAttribute('class','btn');
+        button.setAttribute('onclick','displaydate()');
+        pdiv.appendChild(button);
+
+        var displaydata=document.createElement('div');
+        displaydata.id='display-data';
+
+
+
+
+        function displaydate(){
+            var input=document.getElementById('dob').value;
+            if(Date.parse(input)){
+                var inputDate=new Date(input);//converting string date to number date by calling constructor date.
+                var currentDate=new Date;//input date-current date
+                var millisecdiff=parseInt(currentDate.getTime())-parseInt(inputDate.getTime());
+                var secdiff=mathfloorval(millisecdiff,1000);
+                var mindiff=mathfloorval(secdiff,60);
+                var hrdiff=mathfloorval(mindiff,60);
+                var daydiff=mathfloorval(hrdiff,24);
+                var monthdiff= getmonthdiff(inputDate,currentDate);
+                var yeardiff=getyeardiff(inputDate,currentDate);
+
+                displaydata.innerHTML= `Given input date ${inputDate} <br>
+                year ${yeardiff} <br>
+                month ${monthdiff} <br>
+                day ${daydiff} <br>
+                hour ${hrdiff} <br>
+                seconds ${secdiff} <br>
+                milliseconds ${millisecdiff}
+                `;
+
+
+
+
+            } //(Date.parse) will take string as input and return no of millisecond that has elapsed from jan 1970
+
+            else{
+                displaydate.innerHTML="Invalid date selected";
+            }
+
+        }
+
+        function mathfloorval(val1,val2){
+                 return Math.floor(val1/val2);
+        }
+
+        document.body.appendChild(displaydata);
+
+
+        function getyeardiff(val1,val2){
+            var date1=new Date(val1);
+            var date2=new Date(val2);
+
+            return date2.getFullYear()-date1.getFullYear();
+        }
+
+        function getmonthdiff(val1,val2){
+            var year=getyeardiff(val1,val2);
+            var month=(year*12)+(val2.getMonth()-val1.getMonth());
+            return month;
+        }
+
+        document.body.appendChild(pdiv);
+        var d=new Date();
+        var res=d.getTime();
+        console.log(res);
+
+
+    </script>
+
+</body>
+</html>
